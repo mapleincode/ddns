@@ -7,7 +7,7 @@ var setting = require('./lib/Setting.js')
 function changeIpInServer(localhostIp, domainId, recordId, recordType){
 	var changeIpJson = {
 		login_email		: setting.email,
-		login_password	: setting.password,
+		login_password		: setting.password,
 		format			: 'json',
 		domain_id		: domainId,
 		sub_domain 		: setting.subdomain,
@@ -46,7 +46,7 @@ function getDataFromServer(localhostIp) {
 	var url = "https://dnsapi.cn/Monitor.Listsubvalue";
 	var getValuesJson = {
 		login_email		: setting.email,
-		login_password	: setting.password,
+		login_password		: setting.password,
 		format			: 'json',
 		domain			: setting.domain,
 		record_line		: '默认',
