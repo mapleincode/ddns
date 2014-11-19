@@ -1,0 +1,22 @@
+{
+  "name": "ddns",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ddns.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mapleincode/ddns.git"
+  },
+  "keywords": [
+    "ddns",
+    "dns",
+    "dnspod"
+  ],
+  "author": "mapleincode",
+  "license": "ISC",
+  "dependencies": {
+   	"spidex": "~1.0.8" 
+  }
+}
