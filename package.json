@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "ddns.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/mapleincode/ddns.git"
@@ -17,6 +16,7 @@
   "author": "mapleincode",
   "license": "ISC",
   "dependencies": {
-   	"spidex": "~1.0.8" 
+    "async": "^1.5.0",
+    "spidex": "~1.0.8"
   }
 }
