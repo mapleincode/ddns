@@ -3,7 +3,9 @@
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "mocha"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/mapleincode/ddns.git"
@@ -18,5 +20,9 @@
   "dependencies": {
     "lodash": "^4.17.4",
     "request": "^2.83.0"
+  },
+  "devDependencies": {
+    "mocha": "^4.1.0",
+    "should": "^13.2.0"
   }
 }

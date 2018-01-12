@@ -120,7 +120,7 @@ class Domain {
             if(json) {
                 callback(undefined, result.records[0]);
             } else {
-                callback(undefined, result.records.map(record => new SubDomain(record, self)));
+                callback(undefined, result.records.map(record => new SubDomain(record, self))[0]);
             }
         });
 
@@ -143,7 +143,6 @@ class Domain {
                 return callback(undefined, new SubDomain(body.record, self));
             });
         }
-
 
     recordByKeyword(keyword, offset, length, callback) {
         if(typeof offset === 'function') {
@@ -309,7 +308,8 @@ class Domain {
         }
         const route = '/Record.Ddns';
 
-        this._request(route, {
+        const self = this;
+        self._request(route, {
             record_id: recordId,
             sub_domain: subDomainName,
             record_line: options.recordLine || '默认',
@@ -319,7 +319,7 @@ class Domain {
             if(err) {
                 return callback(err);
             }
-            const subD = new SubDomain(subDomain);
+            const subD = new SubDomain({ id: recordId }, self);
             subD.initByAPI(function(err) {
                 if(err) {
                     return callback(err);
