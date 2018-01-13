@@ -1,2 +1,4 @@
 /node_modules
 /lib/config.js
+.idea
+test
