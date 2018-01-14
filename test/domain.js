@@ -21,23 +21,6 @@ let recordId;
 
 
 describe('Domain', function() {
-
-    after(function() {
-        ddns.recordByName(subDomainName, function(err, record) {
-            if(err) {
-                console.error(err);
-            }
-            if(record && record.id) {
-                ddns.removeRecord(record.id, function(err) {
-                    if(err) {
-                        console.error(err);
-                    } else {
-                        console.log('remove success!');
-                    }
-                });
-            }
-        });
-    });
     describe('create new record', function() {
         let _record;
         it('should create without error', function(done) {
@@ -202,15 +185,6 @@ describe('Domain', function() {
         it('record remove should without error', function(done) {
             ddns.removeRecord(recordId, function(err) {
                 should.ifError(err);
-                done();
-            });
-        });
-
-        it('record should not be not query', function() {
-            ddns.recordById(recordId, function(err) {
-                err.should.be.exist();
-                console.log(err);
-                err.message.should.be.startWith('没有记录');
                 done();
             });
         });
