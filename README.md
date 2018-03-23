@@ -1,4 +1,4 @@
-Simple API for [DNSpod.cn]()
+Simple API for [https://DNSpod.cn]()
 
 ## Usage
 
