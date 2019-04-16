@@ -29,11 +29,11 @@ class Domain {
             domainName
         };
 
-        this.baseURI = 'https://dnsapi.cn'
+        this.baseURI = 'https://dnsapi.cn';
     }
 
     _request(path, json, callback) {
-        if(typeof json !== 'object') {
+        if (typeof json !== 'object') {
             json = {};
         }
 
@@ -42,7 +42,7 @@ class Domain {
         json.format = 'json';
         json['domain'] = this._domain.domainName;
 
-        if(this._domain.domainId) {
+        if (this._domain.domainId) {
             json['domain_id'] = this._domain.domainId;
         }
 
@@ -52,37 +52,36 @@ class Domain {
             uri: this.baseURI + path,
             form: json,
             json: true
-        }, function(err, resp, body) {
-            if(err) {
+        }, function (err, resp, body) {
+            if (err) {
                 return callback(err);
             }
-            if(!body) {
+            if (!body) {
                 return callback(new Error('API 返回 body 不存在!'));
             }
             const status = body.status;
-            if(status.code !== '1') {
+            if (status.code !== '1') {
                 const error = self.getError(path, status.code, status.message);
                 return callback(error);
             }
-            if(body.domain) {
+            if (body.domain) {
                 self._domain = _.assign(self._domain, body.domain);
             }
-            if(body.info) {
+            if (body.info) {
                 self._domainInfo = _.assign(self._domainInfo, body.info);
             }
             try {
                 delete body.status;
                 delete body.domain;
-            } catch(ex) {
-
-            }
+            // eslint-disable-next-line no-empty
+            } catch (ex) {}
             callback(undefined, body);
         });
     }
 
     recordList(offset, length, callback) {
         // 判断 offset 是否为 callback
-        if(typeof offset === 'function') {
+        if (typeof offset === 'function') {
             callback = offset;
             offset = 0;
             length = 3000;
@@ -94,8 +93,8 @@ class Domain {
         this._request(path, {
             offset,
             length
-        }, function(err, result) {
-            if(err) {
+        }, function (err, result) {
+            if (err) {
                 return callback(err);
             }
             const recordList = result.records.map(record => new SubDomain(record, self));
@@ -112,12 +111,12 @@ class Domain {
             offset,
             length,
             sub_domain: subDomainName
-        }, function(err, result) {
-            if(err) {
+        }, function (err, result) {
+            if (err) {
                 return callback(err);
             }
 
-            if(json) {
+            if (json) {
                 callback(undefined, result.records[0]);
             } else {
                 callback(undefined, result.records.map(record => new SubDomain(record, self))[0]);
@@ -126,26 +125,26 @@ class Domain {
 
     }
 
-    recordById(recordId, callback, json) {
-            const path = '/Record.Info';
+    recordById(recordId, callback) {
+        const path = '/Record.Info';
 
-            const self = this;
+        const self = this;
 
-            this._request(path, {
-                record_id: recordId
-            }, function(err, body) {
-                if(err) {
-                    return callback(err);
-                }
-                if(!body.record) {
-                    return callback(undefined, null);
-                }
-                return callback(undefined, new SubDomain(body.record, self));
-            });
-        }
+        this._request(path, {
+            record_id: recordId
+        }, function (err, body) {
+            if (err) {
+                return callback(err);
+            }
+            if (!body.record) {
+                return callback(undefined, null);
+            }
+            return callback(undefined, new SubDomain(body.record, self));
+        });
+    }
 
     recordByKeyword(keyword, offset, length, callback) {
-        if(typeof offset === 'function') {
+        if (typeof offset === 'function') {
             callback = offset;
             offset = 0;
             length = 3000;
@@ -156,8 +155,8 @@ class Domain {
             offset,
             length,
             keyword: keyword
-        }, function(err, result) {
-            if(err) {
+        }, function (err, result) {
+            if (err) {
                 return callback(err);
             }
             const recordList = result.records.map(record => new SubDomain(record, self));
@@ -166,7 +165,7 @@ class Domain {
     }
 
     setGetIPFunction(func) {
-        if(typeof func !== 'function') {
+        if (typeof func !== 'function') {
             throw new Error('error get ip function!');
         }
         this.getIP = func;
@@ -177,14 +176,14 @@ class Domain {
 
         subDomain = subDomain || '@';
 
-        if(typeof options === 'function') {
+        if (typeof options === 'function') {
             callback = options;
             options = {};
         }
 
         recordType = recordType.toUpperCase();
-        if(recordType === 'MX') {
-            if(!options.mx) {
+        if (recordType === 'MX') {
+            if (!options.mx) {
                 return callback(new Error('options.mx must be get on MX record'));
             }
         }
@@ -201,15 +200,15 @@ class Domain {
             weight: options.weight
         };
         const self = this;
-        self._request(path, json, function(err, body) {
-            if(err) {
+        self._request(path, json, function (err, body) {
+            if (err) {
                 return callback(err);
             }
 
             const subD = new SubDomain(body.record, self);
 
-            subD.initByAPI(function(err) {
-                if(err) {
+            subD.initByAPI(function (err) {
+                if (err) {
                     return callback(err);
                 }
                 callback(undefined, subD);
@@ -221,14 +220,14 @@ class Domain {
     updateRecord(recordId, subDomain, recordType, value, options, callback) {
         const path = '/Record.Modify';
 
-        if(typeof options === 'function') {
+        if (typeof options === 'function') {
             callback = options;
             options = {};
         }
 
         recordType = recordType.toUpperCase();
-        if(recordType === 'MX') {
-            if(!options.mx) {
+        if (recordType === 'MX') {
+            if (!options.mx) {
                 return callback(new Error('options.mx must be get on MX record'));
             }
         }
@@ -246,14 +245,14 @@ class Domain {
             weight: options.weight
         };
         const self = this;
-        self._request(path, json, function(err, body) {
-            if(err) {
+        self._request(path, json, function (err, body) {
+            if (err) {
                 return callback(err);
             }
             const subD = new SubDomain(body.record, self);
 
-            subD.initByAPI(function(err) {
-                if(err) {
+            subD.initByAPI(function (err) {
+                if (err) {
                     return callback(err);
                 }
                 callback(undefined, subD);
@@ -263,24 +262,22 @@ class Domain {
     }
 
     updateRecordByName(subDomainName, recordType, value, options, callback) {
-        const path = '/Record.Modify';
-
-        if(typeof options === 'function') {
+        if (typeof options === 'function') {
             callback = options;
             options = {};
         }
 
         recordType = recordType.toUpperCase();
-        if(recordType === 'MX') {
-            if(!options.mx) {
+        if (recordType === 'MX') {
+            if (!options.mx) {
                 return callback(new Error('options.mx must be get on MX record'));
             }
         }
 
         const self = this;
 
-        self.recordByName(subDomainName, function(err, record) {
-            if(err) {
+        self.recordByName(subDomainName, function (err, record) {
+            if (err) {
                 return callback(err);
             }
             const recordId = record.id;
@@ -293,8 +290,8 @@ class Domain {
         const params = {
             record_id: recordId
         };
-        this._request(path, params, function(err) {
-            if(err) {
+        this._request(path, params, function (err) {
+            if (err) {
                 return callback(err);
             }
             callback();
@@ -302,7 +299,7 @@ class Domain {
     }
 
     ddns(recordId, subDomainName, value, options, callback) {
-        if(typeof options === 'function') {
+        if (typeof options === 'function') {
             callback = options;
             options = {};
         }
@@ -315,13 +312,13 @@ class Domain {
             record_line: options.recordLine || '默认',
             record_line_id: options.recordLineId,
             value: value
-        }, function(err, subDomain) {
-            if(err) {
+        }, function (err) {
+            if (err) {
                 return callback(err);
             }
             const subD = new SubDomain({ id: recordId }, self);
-            subD.initByAPI(function(err) {
-                if(err) {
+            subD.initByAPI(function (err) {
+                if (err) {
                     return callback(err);
                 }
                 callback(undefined, subD);
@@ -336,13 +333,13 @@ class Domain {
         self._request(path, {
             record_id: recordId,
             remark: remark
-        }, function(err) {
-            if(err) {
+        }, function (err) {
+            if (err) {
                 return callback(err);
             }
             const subD = new SubDomain({ id: recordId }, self);
-            subD.initByAPI(function(err) {
-                if(err) {
+            subD.initByAPI(function (err) {
+                if (err) {
                     return callback(err);
                 }
                 callback(undefined, subD);
@@ -357,13 +354,13 @@ class Domain {
         self._request(path, {
             record_id: recordId,
             status: status
-        }, function(err) {
-            if(err) {
+        }, function (err) {
+            if (err) {
                 return callback(err);
             }
             const subD = new SubDomain({ id: recordId }, self);
-            subD.initByAPI(function(err) {
-                if(err) {
+            subD.initByAPI(function (err) {
+                if (err) {
                     return callback(err);
                 }
                 callback(undefined, subD);
