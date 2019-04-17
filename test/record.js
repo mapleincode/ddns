@@ -26,6 +26,7 @@ describe('Record', function() {
     before(function(done) {
         ddns.createRecord(subDomainName, recordType, value, function(err, _record) {
             should.ifError(err);
+            should(_record).be.an.Object();
             recordObject = _record;
             done();
         });
