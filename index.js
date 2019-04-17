@@ -34,10 +34,17 @@ class Domain {
         this.token = `${this._account.loginId},${this._account.loginToken}`;
 
         this._domain = {
-            domainName
+            domainName: domainName
         };
 
         this.baseURI = 'https://dnsapi.cn';
+
+        if (!this._account.loginId) {
+            throw new Error('loginId can\'t be null');
+        }
+        if (!this._account.loginToken) {
+            throw new Error('loginToken can\'t be null');
+        }
     }
 
     _request(path, json, callback) {
