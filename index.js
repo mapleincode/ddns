@@ -17,13 +17,21 @@ class Domain {
         this.getIP = getIP;
         this.getError = getError;
         options = options || {};
+        
+        // options
+        this._options = options;
 
+        // account
         this._account = {
             email,
             password,
             domainName,
-            domainId: options.domainId
+            domainId: options.domainId,
+            loginToken: options.loginToken,
+            loginId: options.loginId
         };
+
+        this.token = `${this._account.loginId},${this._account.loginToken}`;
 
         this._domain = {
             domainName
@@ -36,9 +44,7 @@ class Domain {
         if (typeof json !== 'object') {
             json = {};
         }
-
-        json['login_email'] = this._account.email;
-        json['login_password'] = this._account.password;
+        json['login_token'] = this.token;
         json.format = 'json';
         json['domain'] = this._domain.domainName;
 
