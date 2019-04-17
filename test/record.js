@@ -7,7 +7,10 @@ const should = require('should');
 const account = require('./account.json');
 
 const DDns = require('../');
-const ddns = new DDns(account.email, account.password, account.domain);
+const ddns = new DDns(account.email, account.password, account.domain, {
+    loginToken: account.loginToken,
+    loginId: account.loginId
+});
 
 const subDomainName = 'test35';
 const recordType = 'A';
@@ -22,6 +25,7 @@ describe('Record', function() {
 
     before(function(done) {
         ddns.createRecord(subDomainName, recordType, value, function(err, _record) {
+            should.ifError(err);
             recordObject = _record;
             done();
         });
