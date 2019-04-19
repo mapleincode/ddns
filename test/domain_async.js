@@ -119,7 +119,7 @@ describe('Domain Async', function() {
 
     describe('remove record', function() {
         it('record remove async', async function() {
-            await ddns.removeRecord(recordId);
+            await ddns.removeRecordAsync(recordId);
         });
     });
 });

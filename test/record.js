@@ -131,10 +131,10 @@ describe('Record', function() {
             });
         });
 
-        it('record should not be not query', function() {
+        it('record should not be not query', function(done) {
             ddns.recordById(recordObject.id, function(err) {
-                err.should.be.exist();
-                err.message.should.be.startWith('没有记录');
+                err.should.be.an.Object();
+                err.message.should.be.startWith('记录ID');
                 done();
             });
         });
