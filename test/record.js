@@ -35,7 +35,7 @@ describe('Record', function() {
     after(function() {
         ddns.recordByName(subDomainName, function(err, record) {
             if(err) {
-                console.error(err);
+                // console.error(err);
             }
             if(record && record.id) {
                 ddns.removeRecord(record.id, function(err) {

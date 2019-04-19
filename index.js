@@ -1,3 +1,5 @@
 'use strict';
 
-module.exports = require('./lib/Domain');
+const Domain = require('./lib/Domain');
+
+module.exports = Domain;
