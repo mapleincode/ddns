@@ -3,10 +3,7 @@
   "version": "2.4.2",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "eslint . && mocha",
-    "eslint": "eslint ."
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/mapleincode/ddns.git"
@@ -23,7 +20,12 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
+    "eslint": "^7.9.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "mocha": "^4.1.0",
     "should": "^13.2.0"
   }
