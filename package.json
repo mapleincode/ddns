@@ -3,7 +3,9 @@
   "version": "2.4.3",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "mocha test"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/mapleincode/ddns.git"
