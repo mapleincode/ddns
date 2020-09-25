@@ -1,4 +1,10 @@
 /**
+ * @Author: maple
+ * @Date: 2019-08-30 16:26:42
+ * @LastEditors: maple
+ * @LastEditTime: 2020-09-25 13:11:58
+ */
+/**
  * Created by maple on 2018/1/12.
  */
 'use strict';
@@ -12,7 +18,7 @@ const ddns = new DDns(account.domain, {
     loginId: account.loginId
 });
 
-const subDomainName = 'test35';
+const subDomainName = 'test36';
 const recordType = 'A';
 const value = '127.0.0.1';
 const value2 = '192.168.1.1';
