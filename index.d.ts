@@ -2,7 +2,9 @@ declare interface DomainOptions {
     loginToken?: string;
     loginId?: string;
     domainId?: string;
-};
+}
+
+declare function Callback (err: Error, record: Record): void;
 
 declare class Record {
     constructor(recordJson: recordOptions, domain: string);
@@ -11,14 +13,14 @@ declare class Record {
     toJSON(): recordOptions;
     setDomain(domain: string);
 
-    initByAPI(callback: function);
+    initByAPI(callback: typeof Callback);
     clone(newRecord: Record);
-    update(subDomain: string, recordType: string, value: string, options: recordOptions, callback: function);
-    setDns(value: string, options: recordOptions, callback: function);
-    ddns(callback: function);
-    setRemark(remark: string, callback: function);
-    setStatus(status: string, callback: function);
-    remove(callback: function);
+    update(subDomain: string, recordType: string, value: string, options: recordOptions, callback: typeof Callback);
+    setDns(value: string, options: recordOptions, callback: typeof Callback);
+    ddns(callback: typeof Callback);
+    setRemark(remark: string, callback: typeof Callback);
+    setStatus(status: string, callback: typeof Callback);
+    remove(callback: typeof Callback);
 }
 
 declare class AsyncRecord {
@@ -58,56 +60,57 @@ export class AsyncDomain {
 
     get records(): Record[];
     get recordsCount(): string;
-    get getIp(): getIpFunc;
-    set getIp(func: getIpFunc);
+    get getIp(): typeof getIpFunc;
+    set getIp(func: typeof getIpFunc);
     get domain(): { name: string, id: string }
 
     static get Domain(): AsyncDomain;
 
-    async recordListAsync(offset: string, length: string): Promise<AsyncRecord[]>;
-    async recordByNameAsync(subDomainName: string, json: boolean): Promise<AsyncRecord>;
-    async recordByNameAsync(subDomainName: string): Promise<AsyncRecord>;
-    async recordByIdAsync(recordId: string): Promise<AsyncRecord>;
-    async recordByKeywordAsync(keyword: string, offset: string, length: string): Promise<AsyncRecord[]>;
-    async recordByKeywrodAsync(keyword: string): Promise<AsyncRecord[]>;
-    async setGetIpFunction(func: getIpFunc);
-    async createRecordAsync(subDomain: string, recordType: string, value: string, options: recordOptions): Promise<AsyncRecord>;
-    async updateRecordAsync(recordId: string, subDomain: string, recordType: string, value: string, options: recordOptions): Promise<AsyncRecord>;
-    async updateRecordByNameAsync(subDomainName: string, recordType: string, value: string, options: recordOptions): Promise<AsyncRecord>;
-    async updateRecordByNameAsync(subDomainName: string, recordType: string, value: string): Promise<AsyncRecord>;
-    async removeRecordAsync(recordId: string): Promise<AsyncRecord>;
-    async ddnsAsync(recordId: string, subDomainName: string, value: string, options: recordOptions): Promise<AsyncRecord>
-    async remarkAsync(recordId: string, remark: string): Promise<AsyncRecord>
-    async setStatusAsync(recordId: string, status: string): Promise<AsyncRecord>
+    recordListAsync(offset: string, length: string): Promise<AsyncRecord[]>;
+    recordByNameAsync(subDomainName: string, json: boolean): Promise<AsyncRecord>;
+    recordByNameAsync(subDomainName: string): Promise<AsyncRecord>;
+    recordByIdAsync(recordId: string): Promise<AsyncRecord>;
+    recordByKeywordAsync(keyword: string, offset: string, length: string): Promise<AsyncRecord[]>;
+    recordByKeywrodAsync(keyword: string): Promise<AsyncRecord[]>;
+    setGetIpFunction(func: typeof getIpFunc);
+    createRecordAsync(subDomain: string, recordType: string, value: string, options: recordOptions): Promise<AsyncRecord>;
+    updateRecordAsync(recordId: string, subDomain: string, recordType: string, value: string, options: recordOptions): Promise<AsyncRecord>;
+    updateRecordByNameAsync(subDomainName: string, recordType: string, value: string, options: recordOptions): Promise<AsyncRecord>;
+    updateRecordByNameAsync(subDomainName: string, recordType: string, value: string): Promise<AsyncRecord>;
+    removeRecordAsync(recordId: string): Promise<AsyncRecord>;
+    ddnsAsync(recordId: string, subDomainName: string, value: string, options: recordOptions): Promise<AsyncRecord>
+    remarkAsync(recordId: string, remark: string): Promise<AsyncRecord>
+    setStatusAsync(recordId: string, status: string): Promise<AsyncRecord>
 }
 
+declare function DomainCallback(err: Error, domain: Domain): void;
 export default class Domain {
     constructor(email: string, password: string, domainName: string, options: DomainOptions);
     constructor(email: string, options: DomainOptions);
 
     get records(): Record[];
     get recordsCount(): string;
-    get getIp(): getIpFunc;
-    set getIp(func: getIpFunc);
+    get getIp(): typeof getIpFunc;
+    set getIp(func: typeof getIpFunc);
     get domain(): { name: string, id: string }
 
     static get Domain(): AsyncDomain;
 
-    recordList(offset: string, length: string, callback: funciton);
-    recordByName(subDomainName: string, json: boolean, callback: function);
-    recordByName(subDomainName: string, callback: function);
-    recordById(recordId: string, callback: function);
-    recordByKeyword(keyword: string, offset: string, length: string, callback: function);
-    recordByKeywrod(keyword: string, callback: function);
-    setGetIpFunction(func: getIpFunc);
-    createRecord(subDomain: string, recordType: string, value: string, options: recordOptions, callback: function);
-    updateRecord(recordId: string, subDomain: string, recordType: string, value: string, options: recordOptions, callback: function);
-    updateRecordByName(subDomainName: string, recordType: string, value: string, options: recordOptions, callback: function);
-    updateRecordByName(subDomainName: string, recordType: string, value: string, callback: function);
-    removeRecord(recordId: string, callback: function);
-    ddns(recordId: string, subDomainName: string, value: string, options: recordOptions, callback: function)
-    remark(recordId: string, remark: string, callback: function)
-    setStatus(recordId: string, status: string, callback: function)
+    recordList(offset: string, length: string, callback: typeof DomainCallback);
+    recordByName(subDomainName: string, json: boolean, callback: typeof DomainCallback);
+    recordByName(subDomainName: string, callback: typeof DomainCallback);
+    recordById(recordId: string, callback: typeof DomainCallback);
+    recordByKeyword(keyword: string, offset: string, length: string, callback: typeof DomainCallback);
+    recordByKeywrod(keyword: string, callback: typeof DomainCallback);
+    setGetIpFunction(func: typeof getIpFunc);
+    createRecord(subDomain: string, recordType: string, value: string, options: recordOptions, callback: typeof DomainCallback);
+    updateRecord(recordId: string, subDomain: string, recordType: string, value: string, options: recordOptions, callback: typeof DomainCallback);
+    updateRecordByName(subDomainName: string, recordType: string, value: string, options: recordOptions, callback: typeof DomainCallback);
+    updateRecordByName(subDomainName: string, recordType: string, value: string, callback: typeof DomainCallback);
+    removeRecord(recordId: string, callback: typeof DomainCallback);
+    ddns(recordId: string, subDomainName: string, value: string, options: recordOptions, callback: typeof DomainCallback)
+    remark(recordId: string, remark: string, callback: typeof DomainCallback)
+    setStatus(recordId: string, status: string, callback: typeof DomainCallback)
 }
 
 export {};
