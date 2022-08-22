@@ -11,7 +11,7 @@ const newDomain = new DDNS('domain.com', { loginToken: '', loginId: '' });
 >
 > 鉴权包含 token 和 id 两部分。 token 只有在申请成功显示一次。
 
-### Domain 对象
+### DnsPodDomain 对象
 
 domai 对象
 
@@ -223,7 +223,7 @@ set status.
 > 通过 `util.promiseify()` 转换
 
 ```javascript
-const DDNS = require('wm-ddns').Domain;
+const DDNS = require('wm-ddns').DnsPodDomain;
 const domain = new DDNS('email', 'passwd', 'domain.com'); // 旧版本鉴权
 const newDomain = new DDNS('domain.com', { loginToken: '', loginId: '' }); //新版本鉴权
 
