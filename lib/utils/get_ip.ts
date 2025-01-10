@@ -6,10 +6,9 @@
  */
 
 import request from 'request-promise';
+import { FetchLocalIPFunction } from '../type/ddns.type';
 
-async function ipme (): Promise<string> {
-    const result = await request('http://icanhazip.com/');
-    return result;
-}
-
-export default ipme;
+const fetchLocalIP: FetchLocalIPFunction = async function ipme (): Promise<string> {
+    return await request('https://icanhazip.com/');
+};
+export default fetchLocalIP;

@@ -1,6 +1,6 @@
-import dp from './DnsPod';
-import dpd from './DnsPodDomain';
-import dpr from './DnsPodRecord';
+import dp from './DNSPlus';
+import dpd from './DNSDomain';
+import dpr from './DNSRecord';
 
 export const DnsPod = dp;
 export const DnsPodDomain = dpd;

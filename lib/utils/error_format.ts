@@ -4,25 +4,34 @@
  * @LastEditors: maple
  * @LastEditTime: 2021-10-22 16:14:20
  */
+import fs from "fs";
+import path from "path";
+import { ErrorFormatFunction, StringToErrorMap } from "../type/other.type";
+
+const fsPromise = fs.promises;
+
 /**
  * Created by maple on 2018/1/10.
  */
-const ErrorMap: { [key: string]: ErrorData } = {};
+const ErrorMap: { [key: string]: StringToErrorMap } = {};
 
-function errorFormat (path: string, errorCode: string, errorMessage: string): Error {
-    const subPath = path.slice(1).toLowerCase();
-    let mmp: ErrorData;
+const errorFormat: ErrorFormatFunction = function (errorPath: string, errorCode: string, errorMessage: string): Error {
+    const subPath = errorPath.slice(1).toLowerCase();
+    let mmp: StringToErrorMap;
 
     if (ErrorMap[subPath] !== undefined) {
-        mmp = ErrorMap[path];
+        mmp = ErrorMap[errorPath];
     } else {
-        mmp = require(`../../errors${path}.json`);
-        ErrorMap[path] = mmp;
+        const json = fs.readFileSync(path.join(__dirname, `../../errors${errorPath}.json`), { encoding: 'utf-8'});
+        mmp = JSON.parse(json);
+        ErrorMap[errorPath] = mmp;
     }
 
     let errorMsg = mmp[errorCode.toString()];
     if (errorMsg === undefined) {
-        errorMsg = `未知错误 code: ${errorCode} errorMsg: ${errorMessage}`;
+        errorMsg = `未知错误。code: ${errorCode} message: ${errorMessage}`;
+    } else {
+        errorMsg = `${errorMsg}。code: ${errorCode} message: ${errorMessage}`
     }
     return new Error(errorMsg);
 }

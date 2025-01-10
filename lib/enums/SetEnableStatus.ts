@@ -1,4 +1,4 @@
-enum SetEnableStatus {
-  enable = 'enable',
-  disable = 'disable'
+export enum SetEnableStatus {
+    enable = 'enable',
+    disable = 'disable'
 }

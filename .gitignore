@@ -1,7 +1,7 @@
 
 .idea
 
-test/account.json
+lib/test/account.json
 
 # Created by https://www.gitignore.io/api/node
 
@@ -76,4 +76,4 @@ typings/
 src/*
 !src/.gitkeep
 
-test/account.json
+lib/test/account.json
