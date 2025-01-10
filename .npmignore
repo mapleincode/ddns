@@ -2,3 +2,4 @@
 /lib/**/*.ts
 .idea
 /lib/test
+account.json
