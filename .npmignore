@@ -3,3 +3,4 @@
 .idea
 /lib/test
 account.json
+*.log
