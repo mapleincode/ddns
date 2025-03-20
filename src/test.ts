@@ -1,3 +1,9 @@
+/*
+ * @Author: maple
+ * @Date: 2025-01-08 13:53:50
+ * @LastEditors: maple
+ * @LastEditTime: 2025-03-20 18:11:02
+ */
 import DomainClient from "./apis/domain.api";
 import RecordClient from "./apis/record.api";
 import { SetEnableStatus } from "./enums/SetEnableStatus";
@@ -31,7 +37,7 @@ async function testApi() {
   }
 
   const filteredRecord = recordFiltered[0];
-  const recordId = filteredRecord.id;
+  const recordId = parseInt(filteredRecord.id + "");
 
   // await recordClient.recordById(recordId);
 

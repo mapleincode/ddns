@@ -35,7 +35,7 @@ class DNSRecord {
      * @param record
      */
     updateByRaw (record: RecordRaw): void {
-        this.id = record.id;
+        this.id = parseInt(record.id + "");
         this.name = record.name;
         this.value = record.value;
 

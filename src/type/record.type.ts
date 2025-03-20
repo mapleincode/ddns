@@ -69,7 +69,7 @@ export interface QueryRecordOptions {
 }
 
 export interface RecordRaw {
-    id: number;
+    id: number|string;
     ttl: string;
     value: string;
     enabled: EnabledStatus;

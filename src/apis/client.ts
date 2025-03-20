@@ -2,12 +2,12 @@
  * @Author: maple
  * @Date: 2025-01-08 16:13:12
  * @LastEditors: maple
- * @LastEditTime: 2025-03-20 15:33:20
+ * @LastEditTime: 2025-03-20 16:28:20
  */
 import path from "path";
 import DNSDomain from "../DNSDomain";
 import { Response } from "../type/api.type";
-import { ClientOptions } from "../type/client.type";
+import { ClientOptions, ClientExtOptions } from "../type/client.type";
 import { ErrorFormatFunction, MapRaw } from "../type/other.type";
 import request from "request-promise";
 import { errorFormat } from "../utils";
@@ -15,15 +15,13 @@ import { errorFormat } from "../utils";
 export default
 class DNSPodClient {
   private readonly loginToken: string;
-  private readonly ext?: MapRaw;
   private readonly serverHost: string;
   private readonly errorFormat: ErrorFormatFunction;
 
-  private static clientMap: {[key: string]: DNSPodClient};
+  private static clientMap: {[key: string]: DNSPodClient} = {};
 
   private constructor(loginToken: string, options?: ClientOptions) {
     this.loginToken = loginToken;
-    this.ext = options?.ext;
 
     if (options?.serverHost) {
       this.serverHost = options.serverHost;
@@ -45,10 +43,9 @@ class DNSPodClient {
     return this.clientMap[token];
   }
 
-  async request (apiPath: string, json: MapRaw): Promise<MapRaw> {
-
+  async request (apiPath: string, json: MapRaw, ext: ClientExtOptions): Promise<MapRaw> {
     const requestData = {
-      ...this.ext,
+      ...ext,
       ...json,
       login_token: this.loginToken,
       format: 'json'
@@ -62,8 +59,11 @@ class DNSPodClient {
     };
     const body = await request(requestParams) as Response;
     const status: { code: string, message: string } = body.status;
-    console.log(requestData);
-    console.log(JSON.stringify(body) + "\n\n\n")
+
+    console.log(`wm-ddns request url: ${requestParams.uri}`)
+    console.log(`wm-ddns request form: ${JSON.stringify(requestData)}`);
+    console.log(`wm-ddns request response body: ${JSON.stringify(body)}` + "\n\n\n")
+    
     if (status.code !== '1') {
       throw errorFormat(apiPath, status.code, status.message);
     }

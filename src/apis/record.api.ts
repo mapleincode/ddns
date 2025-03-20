@@ -7,7 +7,7 @@ import {
   RecordListResponse,
   RecordSetStatusResponse
 } from "../type/api.type";
-import { ClientOptions } from "../type/client.type";
+import { ClientOptions, ClientExtOptions } from "../type/client.type";
 import {
   CreateRecordRequest,
   DDnsRequest,
@@ -19,20 +19,17 @@ import DNSPodClient from "./client";
 export default
 class RecordClient {
   private client: DNSPodClient;
+  private ext: ClientExtOptions;
 
   constructor(domainId: number, loginToken: string, options?: ClientOptions) {
     if (!options) {
       options = {};
     }
 
-    if (!options.ext) {
-      options.ext = {}
-    }
 
-    if (domainId) {
-      options.ext.domain_id = domainId;
+    this.ext = {
+      domain_id: domainId
     }
-
     this.client = DNSPodClient.getClient(loginToken, options);
   }
 
@@ -40,7 +37,7 @@ class RecordClient {
     const path = '/Record.List';
 
     const params = options === undefined ? {} : options;
-    const data = await this.client.request(path, params) as RecordListResponse;
+    const data = await this.client.request(path, params, this.ext) as RecordListResponse;
     return data.records;
   }
 
@@ -58,7 +55,7 @@ class RecordClient {
     const params = {
       record_id: recordId
     };
-    const data = await this.client.request(path, params) as RecordInfoResponse;
+    const data = await this.client.request(path, params, this.ext) as RecordInfoResponse;
     return data.record;
   }
 
@@ -102,7 +99,7 @@ class RecordClient {
       weight: options.weight
     };
 
-    const response = await this.client.request(apiPath, json) as CreateRecordResponse;
+    const response = await this.client.request(apiPath, json, this.ext) as CreateRecordResponse;
     return response.record;
   }
 
@@ -128,7 +125,7 @@ class RecordClient {
       weight: options.weight
     };
 
-    const response = await this.client.request(path, json) as CreateRecordResponse;
+    const response = await this.client.request(path, json, this.ext) as CreateRecordResponse;
     return response.record;
   }
 
@@ -147,7 +144,7 @@ class RecordClient {
       record_id: recordId
     };
 
-    await this.client.request(path, params);
+    await this.client.request(path, params, this.ext);
   }
 
   async dns (options: DDnsRequest): Promise<{ id: number; name: string; value: string }> {
@@ -160,7 +157,7 @@ class RecordClient {
       value: options.value
     };
 
-    const response = await this.client.request(route, json) as RecordDNSResponse;
+    const response = await this.client.request(route, json, this.ext) as RecordDNSResponse;
     return response.record;
   }
 
@@ -170,7 +167,7 @@ class RecordClient {
     await this.client.request(path, {
       record_id: recordId,
       remark
-    });
+    }, this.ext);
   }
 
   async setStatus (recordId: number, status: SetEnableStatus): Promise<{
@@ -184,7 +181,7 @@ class RecordClient {
     const response = await this.client.request(path, {
       record_id: recordId,
       status
-    }) as RecordSetStatusResponse;
+    }, this.ext) as RecordSetStatusResponse;
     return response.record;
   }
 }
