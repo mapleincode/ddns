@@ -19,6 +19,8 @@ class DNSDomain {
     private isSync = false;
     private domainRaw: DomainRaw|null = null;
     private recordsList: DNSRecord[] = [];
+    private loginId: number;
+    private loginToken: string;
     private token: string;
     private domainClient: DomainClient;
     private recordClient: RecordClient | null = null;
@@ -27,6 +29,8 @@ class DNSDomain {
     constructor (dnsPod: DNSPlus, domainName: string, options?: DomainOptions) {
         this.name = domainName;
         this.dnsPod = dnsPod;
+        this.loginId = dnsPod.getLoginId();
+        this.loginToken = dnsPod.getLoginToken();
         this.token = dnsPod.getToken();
 
         if (options) {

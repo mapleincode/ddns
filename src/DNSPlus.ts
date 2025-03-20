@@ -1,3 +1,9 @@
+/*
+ * @Author: maple
+ * @Date: 2024-10-30 17:16:02
+ * @LastEditors: maple
+ * @LastEditTime: 2025-03-20 15:20:12
+ */
 import path from "path";
 import { FetchLocalIPFunction } from './type/ddns.type';
 import { DomainOptions } from "./type/domain.type";
@@ -39,6 +45,14 @@ class DNSPlus {
 
     getToken(): string {
         return this.token;
+    }
+
+    getLoginId(): number {
+        return this.loginId;
+    }
+
+    getLoginToken(): string {
+        return this.loginToken;
     }
 
     /**
