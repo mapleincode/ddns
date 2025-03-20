@@ -1,3 +1,9 @@
+/*
+ * @Author: maple
+ * @Date: 2025-01-08 16:13:12
+ * @LastEditors: maple
+ * @LastEditTime: 2025-03-20 15:30:14
+ */
 import path from "path";
 import DNSDomain from "../DNSDomain";
 import { Response } from "../type/api.type";
@@ -13,9 +19,10 @@ class DNSPodClient {
   private readonly serverHost: string;
   private readonly errorFormat: ErrorFormatFunction;
 
-  constructor(loginToken: string, options?: ClientOptions) {
-    this.loginToken = loginToken;
+  private static clientMap: {[key: string]: DNSPodClient};
 
+  private constructor(loginToken: string, options?: ClientOptions) {
+    this.loginToken = loginToken;
     this.ext = options?.ext;
 
     if (options?.serverHost) {
@@ -29,6 +36,13 @@ class DNSPodClient {
     } else {
       this.errorFormat = errorFormat;
     }
+  }
+
+  public static getClient(token: string, options?: ClientOptions) {
+    if (!this.clientMap[token]) {
+      this.clientMap[token] = new DNSPodClient(token, options);
+    }
+    return this.clientMap[token];
   }
 
   async request (apiPath: string, json: MapRaw): Promise<MapRaw> {

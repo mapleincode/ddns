@@ -33,7 +33,7 @@ class RecordClient {
       options.ext.domain_id = domainId;
     }
 
-    this.client = new DNSPodClient(loginToken, options);
+    this.client = DNSPodClient.getClient(loginToken, options);
   }
 
   async recordList (options?: QueryRecordListRequest): Promise<RecordRaw[]> {
