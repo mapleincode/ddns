@@ -4,3 +4,4 @@
 /src/test
 account.json
 *.log
+/target/test
