@@ -1,6 +1,6 @@
-!/src/
-/lib/**/*.ts
+!/target/
+/src/**/*.ts
 .idea
-/lib/test
+/src/test
 account.json
 *.log

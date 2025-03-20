@@ -73,7 +73,7 @@ typings/
 
 .DS_Store
 
-src/*
-!src/.gitkeep
+target/*
+!target/.gitkeep
 
-lib/test/account.json
+src/test/account.json

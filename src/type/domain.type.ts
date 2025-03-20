@@ -1,3 +1,9 @@
+/*
+ * @Author: maple
+ * @Date: 2024-10-30 17:00:27
+ * @LastEditors: maple
+ * @LastEditTime: 2025-03-20 11:25:02
+ */
 import { ErrorFormatFunction, GetIPFunction } from './other.type';
 
 export interface DomainOptions {
